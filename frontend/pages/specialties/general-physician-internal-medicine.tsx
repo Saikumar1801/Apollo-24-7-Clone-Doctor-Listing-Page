@@ -119,7 +119,7 @@ const GeneralPhysicianPage: NextPage<DoctorsPageProps> = ({
     "@type": "MedicalWebPage",
     "name": "General Physician / Internal Medicine Doctors",
     "description": "Find and book appointments with top General Physician / Internal Medicine doctors. View profiles, reviews, and fees.",
-    "url": "https://www.apollo247.com/specialties/general-physician-internal-medicine", // Use your actual deployed URL
+    "url": "https://www.apollo247.com/specialties/general-physician-internal-medicine",
     "mainEntity": {
       "@type": "ItemList",
       "name": "General Physician / Internal Medicine Doctors List",
@@ -130,19 +130,18 @@ const GeneralPhysicianPage: NextPage<DoctorsPageProps> = ({
           "@type": "Physician",
           "name": doc.name,
           "image": doc.image_url,
-          "url": `/doctors/${doc.profile_slug}`, // Replace with actual doctor profile page URL if built
+          "url": `/doctors/${doc.profile_slug}`,
           "medicalSpecialty": doc.specialization,
           "description": `Dr. ${doc.name}, a ${doc.specialization} with ${doc.experience_years} years of experience.`,
           "knowsLanguage": doc.languages_spoken,
-          // "priceRange": `₹${doc.consultation_fee}` // Not directly Physician property, could be part of an Offer
         }
       }))
     },
     "breadcrumb": {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.apollo247.com/" }, // Your home URL
-        { "@type": "ListItem", "position": 2, "name": "Specialties", "item": "https://www.apollo247.com/specialties" }, // Your specialties index URL
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.apollo247.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Specialties", "item": "https://www.apollo247.com/specialties" },
         { "@type": "ListItem", "position": 3, "name": "General Physician / Internal Medicine" }
       ]
     }
@@ -153,14 +152,14 @@ const GeneralPhysicianPage: NextPage<DoctorsPageProps> = ({
       <Seo
         title="General Physician / Internal Medicine Doctors - Book Appointment"
         description="Find the best General Physician / Internal Medicine doctors. Check consultation fees, patient reviews, and book appointments online or in-clinic."
-        canonicalUrl="https://www.apollo247.com/specialties/general-physician-internal-medicine" // Change to your deployed URL
+        canonicalUrl="https://www.apollo247.com/specialties/general-physician-internal-medicine"
         structuredData={structuredData}
       />
       <Header />
       <main className="container mx-auto px-4 py-6">
         {/* Breadcrumbs - Static */}
         <div className="text-sm text-gray-600 mb-4">
-          Home > Specialties > <span className="font-semibold">General Physician / Internal Medicine</span>
+          Home &gt; Specialties &gt; <span className="font-semibold">General Physician / Internal Medicine</span>
         </div>
 
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
@@ -182,7 +181,6 @@ const GeneralPhysicianPage: NextPage<DoctorsPageProps> = ({
           </div>
         </div>
       </main>
-      {/* Footer (optional, static) */}
       <footer className="bg-gray-100 text-center p-4 mt-8 text-sm text-gray-600">
         © {new Date().getFullYear()} Apollo 24|7 Clone. For demonstration purposes only.
       </footer>
@@ -190,16 +188,14 @@ const GeneralPhysicianPage: NextPage<DoctorsPageProps> = ({
   );
 };
 
-// Fetch initial data and unique languages for filters on server-side for SEO and faster first paint
 export const getServerSideProps: GetServerSideProps<DoctorsPageProps> = async (context) => {
-  // Construct initial query params (can be from context.query if you want URL-based filters for SSR)
   const initialPage = 1;
-  const initialLimit = 5; // Match client-side limit
+  const initialLimit = 5;
   const queryParams = new URLSearchParams({
     page: initialPage.toString(),
     limit: initialLimit.toString(),
     specialization: 'General Physician / Internal Medicine',
-    sortBy: 'rating_desc' // Default sort for initial load
+    sortBy: 'rating_desc'
   });
 
   try {
@@ -212,14 +208,10 @@ export const getServerSideProps: GetServerSideProps<DoctorsPageProps> = async (c
     }
     const data: DoctorApiResponse = await res.json();
 
-    // For unique languages, ideally, the backend would provide an endpoint
-    // or this would be pre-calculated. For now, derive from the first page of results.
-    // A better approach is a separate API endpoint like /api/doctors/languages
     const allLanguages = data.doctors.reduce((acc, doc) => {
       doc.languages_spoken.forEach(lang => acc.add(lang));
       return acc;
     }, new Set<string>());
-
 
     return {
       props: {
@@ -232,14 +224,13 @@ export const getServerSideProps: GetServerSideProps<DoctorsPageProps> = async (c
     };
   } catch (error: any) {
     console.error('getServerSideProps error:', error.message);
-    // Return empty/default state on error to prevent page crash
     return {
       props: {
         initialDoctors: [],
         initialTotalPages: 0,
         initialCurrentPage: 1,
         initialTotalDoctors: 0,
-        uniqueLanguages: ['English', 'Hindi'] // Fallback
+        uniqueLanguages: ['English', 'Hindi']
       },
     };
   }
