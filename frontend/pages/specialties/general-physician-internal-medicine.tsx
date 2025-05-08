@@ -157,7 +157,6 @@ const GeneralPhysicianPage: NextPage<DoctorsPageProps> = ({
       />
       <Header />
       <main className="container mx-auto px-4 py-6">
-        {/* Breadcrumbs - Static */}
         <div className="text-sm text-gray-600 mb-4">
           Home &gt; Specialties &gt; <span className="font-semibold">General Physician / Internal Medicine</span>
         </div>
